@@ -5,7 +5,7 @@ function(Tone){
 	"use strict";
 
 	/**
-	 *  @class  Tone.DuoSynth is a monophonic synth composed of two 
+	 *  @class  Tone.TrioSynth is a monophonic synth composed of two 
 	 *          MonoSynths run in parallel with control over the 
 	 *          frequency ratio between the two voices and vibrato effect.
 	 *          <img src="https://docs.google.com/drawings/d/1bL4GXvfRMMlqS7XyBm9CjL9KJPSUKbcdBNpqOlkFLxk/pub?w=1012&h=448">
@@ -15,12 +15,12 @@ function(Tone){
 	 *  @param {Object} [options] the options available for the synth 
 	 *                          see defaults below
 	 *  @example
-	 * var duoSynth = new Tone.DuoSynth().toMaster();
-	 * duoSynth.triggerAttackRelease("C4", "2n");
+	 * var TrioSynth = new Tone.TrioSynth().toMaster();
+	 * TrioSynth.triggerAttackRelease("C4", "2n");
 	 */
-	Tone.DuoSynth = function(options){
+	Tone.TrioSynth = function(options){
 
-		options = this.defaultArg(options, Tone.DuoSynth.defaults);
+		options = this.defaultArg(options, Tone.TrioSynth.defaults);
 		Tone.Monophonic.call(this, options);
 
 		/**
@@ -80,7 +80,7 @@ function(Tone){
 		 *  @signal
 		 *  @example
 		 * //pitch voice1 an octave below voice0
-		 * duoSynth.harmonicity.value = 0.5;
+		 * TrioSynth.harmonicity.value = 0.5;
 		 */
 		this.harmonicity = new Tone.Multiply(options.harmonicity);
 		this.harmonicity.units = Tone.Type.Positive;
@@ -95,13 +95,13 @@ function(Tone){
 		this._readOnly(["voice0", "voice1", "frequency", "vibratoAmount", "vibratoRate"]);
 	};
 
-	Tone.extend(Tone.DuoSynth, Tone.Monophonic);
+	Tone.extend(Tone.TrioSynth, Tone.Monophonic);
 
 	/**
 	 *  @static
 	 *  @type {Object}
 	 */
-	Tone.DuoSynth.defaults = {
+	Tone.TrioSynth.defaults = {
 		"vibratoAmount" : 0.5,
 		"vibratoRate" : 5,
 		"harmonicity" : 1.5,
@@ -150,10 +150,10 @@ function(Tone){
 	 *  
 	 *  @param {Time} [time=now] the time the attack should start
 	 *  @param {NormalRange} [velocity=1] the velocity of the note (0-1)
-	 *  @returns {Tone.DuoSynth} this
+	 *  @returns {Tone.TrioSynth} this
 	 *  @private
 	 */
-	Tone.DuoSynth.prototype._triggerEnvelopeAttack = function(time, velocity){
+	Tone.TrioSynth.prototype._triggerEnvelopeAttack = function(time, velocity){
 		time = this.toSeconds(time);
 		this.voice0.envelope.triggerAttack(time, velocity);
 		this.voice1.envelope.triggerAttack(time, velocity);
@@ -166,10 +166,10 @@ function(Tone){
 	 *  start the release portion of the envelopes
 	 *  
 	 *  @param {Time} [time=now] the time the release should start
-	 *  @returns {Tone.DuoSynth} this
+	 *  @returns {Tone.TrioSynth} this
 	 *  @private
 	 */
-	Tone.DuoSynth.prototype._triggerEnvelopeRelease = function(time){
+	Tone.TrioSynth.prototype._triggerEnvelopeRelease = function(time){
 		this.voice0.triggerRelease(time);
 		this.voice1.triggerRelease(time);
 		return this;
@@ -177,9 +177,9 @@ function(Tone){
 
 	/**
 	 *  clean up
-	 *  @returns {Tone.DuoSynth} this
+	 *  @returns {Tone.TrioSynth} this
 	 */
-	Tone.DuoSynth.prototype.dispose = function(){
+	Tone.TrioSynth.prototype.dispose = function(){
 		Tone.Monophonic.prototype.dispose.call(this);
 		this._writable(["voice0", "voice1", "frequency", "vibratoAmount", "vibratoRate"]);
 		this.voice0.dispose();
@@ -199,5 +199,5 @@ function(Tone){
 		return this;
 	};
 
-	return Tone.DuoSynth;
+	return Tone.TrioSynth;
 });
