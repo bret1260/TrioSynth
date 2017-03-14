@@ -201,3 +201,5 @@ function(Tone){
 
 	return Tone.TrioSynth;
 });
+
+var tester = "testing";
